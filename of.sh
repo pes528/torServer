@@ -46,7 +46,7 @@ function servNingx(){
         echo -e "${html}" > miweb.html
         cp miweb.html $ruta/index.html
         sleep 1
-        echo "MENSAJE CONFIGURADO CON EXITO"
+        echo -e "\nMENSAJE CONFIGURADO CON EXITO"
         sleep 2
         main
     else
@@ -66,23 +66,25 @@ function serverInit(){
         sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
         sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
 
-        echo -n "SERVICE RUNNING."
+        
         nginx
-        sleep 2
+        
         tor > tor.log 2>&1 &
         sleep 4
+        echo -n "SERVICE RUNNING."
         i=${i:-0}
         while [ $i -ne 500 ];do
-            if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -1)}') == "100%:" ]];then
+            if [[ $(grep -w -r '100%' to.log|gawk '{print $(NF -2)}') == "100%" ]];then
                 sleep 1
-                echo "\nSERVIDOR INICIADO 100%"
+                echo -e "\nSERVIDOR INICIADO 100%"
                 sleep 3
                 i=500
             else
+                sleep 1
                 echo -e -n "${rojito}.${fin}"
                 ((i++))
                 if [[ $i -eq 500 ]];then
-                    echo "\n\nALGO SALIO MAL, REVISA TU CONEXION O VERIFICA EL ARCHIVO tor.log PARA VER EL ERROR"
+                    echo -e "\n\nALGO SALIO MAL, REVISA TU CONEXION O VERIFICA EL ARCHIVO tor.log PARA VER EL ERROR"
                     sleep 3 
                     
                 fi
