@@ -8,7 +8,7 @@ fin="\033[0m"
 
 #endColor------
 
-torrcDir="data/data/com.termux/files/usr/etc/tor/torrc"
+torrcDir="/data/data/com.termux/files/usr/etc/tor/torrc"
 
 
 hiddenServi="#HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/"
@@ -96,7 +96,7 @@ function stopServer(){
     hidden=$(awk '/^HiddenServiceDir/' $torrcDir|head -1)
     if [[ $hidden == "HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/" ]];then
         sed -i "$numLineaServ s%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%$hiddenServi%" $torrcDir
-        sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:80/$hiddenPort/" $torrcDir
+        sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:8080/$hiddenPort/" $torrcDir
         echo "SERVER OFF."
         pkill tor 
         pkill nginx
