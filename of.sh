@@ -56,7 +56,7 @@ banner="""${rojito}
             +@@@+     +@@@+    +@@@+              
               =         =        =                
                 
-                SERVER .ONION                                
+            ＳＥＲＶＥＲ ．ＯＮＩＯＮ                                
             
             AUTHOR:TELEGRAM:@PES528
             GROUP:WHITEHACKS
@@ -168,6 +168,26 @@ function info(){
 
 }
 
+salir (){
+    clear 
+    echo -e "\nSI SALES TU SERVIDOR SE DETENDRA, ESTAS SEGURO?\n[1]=Salir\n[0]=Volver al menu\n"
+    read -p "Opcion: " opt
+    if [[ $opt == "1" ]];then
+        echo "EXIT"
+        sed -i "$numLineaServ s%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%$hiddenServi%" $torrcDir
+        sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:8080/$hiddenPort/" $torrcDir
+        pkill nginx 
+        pkill tor
+        pkill screen
+        sleep 2
+        clear
+    else
+        main
+
+    fi
+
+}
+
 function main(){
     clear
     echo -e "\t${banner}"
@@ -193,7 +213,8 @@ function main(){
         servNingx
         ;;
         "0")
-        echo "exit"
+        salir
+
         ;;
         *)
         
