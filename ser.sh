@@ -61,7 +61,7 @@ function serverInit(){
 
         echo "SERVICE RUNNING:"
         #tor
-        nignx
+        nginx
 
     else
         echo "SERVER ALREADY START"
