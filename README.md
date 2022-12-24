@@ -1,5 +1,5 @@
 # torServer
-INSTALACION PARA TERMUX:<br>
+<h1>INSTALACION PARA TERMUX:</h1><br>
 
 -apt update && apt upgrade -y
 
