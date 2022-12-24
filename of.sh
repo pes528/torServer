@@ -69,9 +69,9 @@ ${fin}"""
 ruta="$PREFIX/share/nginx/html/"
 function servNingx(){
     clear
-    echo -e "\n     HTML MESSAGE"
-    echo -e "\nAqui puedes escribir un mensaje para que aparezca en tu sitio web."
-    echo "O tambien puedes modificar el archivo miweb.html"
+    echo -e "\n\n     HTML MESSAGE"
+    echo -e "\nAqui puedes escribir un mensaje el cual aparecera en tu sitio web."
+    echo "Tambien puedes modificar el archivo miweb.html "
     echo -e "\n1: Mensaje de prueba\n0: Salir\n"
     read -p "Elije una opcion: " testMessage
     if [[ $testMessage == "1" ]];then
