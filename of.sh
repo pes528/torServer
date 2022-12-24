@@ -74,7 +74,7 @@ function serverInit(){
         echo -n "SERVICE RUNNING."
         i=${i:-0}
         while [ $i -ne 500 ];do
-            if [[ $(grep -w -r '100%' to.log|gawk '{print $(NF -2)}') == "100%" ]];then
+            if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -2)}') == "100%" ]];then
                 sleep 1
                 echo -e "\nSERVIDOR INICIADO 100%"
                 sleep 3
