@@ -7,7 +7,7 @@ fin="\033[0m"
 
 #endColor------
 
-torrcDir="/data/data/com.termux/files/usr/etc/tor/torrc"
+torrcDir="data/data/com.termux/files/usr/etc/tor/torrc"
 
 
 hiddenServi="#HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/"
@@ -43,12 +43,13 @@ function serverInit(){
     hidden=$(awk '/^#HiddenServiceDir /' $torrcDir|head -1)
     
     if [[ $hidden == $hiddenServi ]];then
+        pkill nginx
         sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
         sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:80/" $torrcDir
 
         echo "SERVICE RUNNING:"
         #tor
-        #nignx
+        nignx
 
     else
         echo "SERVER ALREADY START"
@@ -64,8 +65,9 @@ function stopServer(){
         sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:80/$hiddenPort/" $torrcDir
         echo "SERVER OFF."
         #pkill tor 
-        #pkill nginx
+        pkill nginx
     else
+        
         echo "SERVER IS NOT RUNNING"
     fi 
 
