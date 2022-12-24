@@ -20,8 +20,19 @@ numLineaPort=$(grep -n "HiddenServicePort 80" $torrcDir|awk -v FS=":" '{print $1
 
 estado=${estado:-""}
 
+
+dominio="/data/data/com.termux/files/usr/var/lib/tor/hidden_service"
+if [[ -d $dominio ]];then
+    echo ""
+else
+    mkdir -p $dominio
+
+fi
+
+
+ruta="$PREFIX/share/nginx/html/"
 function servNingx(){
-    ruta="$PREFIX/share/nginx/html/"
+    
     echo -e "\n1: Test Message\n0: Exit"
     read -p "Option: " testMessage
     if [[ $testMessage == "1" ]];then
@@ -44,6 +55,7 @@ function serverInit(){
     
     if [[ $hidden == $hiddenServi ]];then
         pkill nginx
+        cp test.html $ruta/index.html
         sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
         sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:80/" $torrcDir
 
@@ -54,6 +66,7 @@ function serverInit(){
     else
         echo "SERVER ALREADY START"
     fi
+    
 
 
 }
@@ -73,13 +86,16 @@ function stopServer(){
 
 
 }
-
-function verifica(){
+host=${host:-""}
+function info(){
 
     if [[ $(awk '/^#HiddenServiceDir/' $torrcDir|head -1) == $hiddenServi ]];then
         estado="[${off}OFF${fin}]"
+        host="OFF"
     else
+
         estado="[${on}ON${fin}]"
+        host=$(cat $dominio/hostname)
     fi
 
 }
@@ -87,8 +103,10 @@ function verifica(){
 function main(){
     clear
     echo -e "\n\tSERVER .ONION\n\n"
-    verifica
+    info
     echo -e "STATUS:            ${estado}"
+    echo -e "\nHOST:                ${host}"
+
     echo -e "[1] = Start Server\n[2] = Stop Server\n[0] = Quit\n"
     read -p "Option: " option
     case $option in
