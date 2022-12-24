@@ -1,5 +1,6 @@
 # torServer
 INSTALACION PARA TERMUX:<br>
+
 apt update && apt upgrade -y
 apt install tor -y<br>
 apt install nginx -y<br>
