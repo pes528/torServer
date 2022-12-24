@@ -173,8 +173,8 @@ function main(){
     echo -e "\t${banner}"
     #echo -e "\tSERVER .ONION\n\n"
     info
-    echo -e "ESTADO:            ${estado}"
-    echo -e "\nHOST:-> ${verdej}${host}${fin}\n"
+    echo -e "ESTADO:                        ${estado}"
+    echo -e "\nHOST:-⬇⬇⬇ \n${verdej}${host}${fin}\n"
 
     echo -e "[1] = Iniciar Servidor\n[2] = Detener Servidor\n[3] = Mensaje para tu sitio\n[0] = Salir\n"
     read -p "Elige una opcion: " option
