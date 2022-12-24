@@ -7,7 +7,7 @@ fin="\033[0m"
 
 #endColor------
 
-torrcDir="data/data/com.termux/files/usr/etc/tor/torrc"
+torrcDir="/data/data/com.termux/files/usr/etc/tor/torrc"
 
 
 hiddenServi="#HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/"
