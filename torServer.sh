@@ -8,12 +8,14 @@ verdej="\033[1;32m"
 fin="\033[0m"
 
 #endColor------
-#---------------------------------------------------------------------------------------------
 
-#SCRIPT PARA CREAR UN SERVIDOR EN LA RED DE TOR
-#AUTHOR:@PES528
+#-------------------------------------------
+SCRIPT PARA CREAR UN SERVIDOR EN LA RED DE TOR [PARA TERMUX]
+AUTHOR:@PES528
 
-#--------------------------------------------------------------------------------------------
+#-------------------------------------------
+
+
 
 
 torrcDir="/data/data/com.termux/files/usr/etc/tor/torrc"
@@ -66,7 +68,7 @@ banner="""${rojito}
             ＳＥＲＶＥＲ ．ＯＮＩＯＮ                                
             
             AUTHOR:TELEGRAM:@PES528
-            GROUP:WHITEHACKS
+            GROUP:---
             OTHER:NO
                     v1.0                                  
 ${fin}"""
@@ -76,9 +78,9 @@ ${fin}"""
 ruta="$PREFIX/share/nginx/html/"
 function servNingx(){
     clear
-    echo -e "\n\n     HTML MESSAGE"
-    echo -e "\nAqui puedes escribir un mensaje el cual aparecera en tu sitio web."
-    echo "Tambien puedes modificar el archivo miweb.html "
+    echo -e "\n     HTML MESSAGE"
+    echo -e "\nAqui puedes escribir un mensaje para que aparezca en tu sitio web."
+    echo "O tambien puedes modificar el archivo miweb.html"
     echo -e "\n1: Mensaje de prueba\n0: Salir\n"
     read -p "Elije una opcion: " testMessage
     if [[ $testMessage == "1" ]];then
@@ -112,7 +114,7 @@ function serverInit(){
         
         tor > tor.log 2>&1 &
         sleep 4
-        echo -n "SERVICE RUNNING."
+        echo -e -n "\nINICIANDO SERVIDOR, ESPERA UN MOMENTO #"
         i=${i:-0}
         while [ $i -ne 500 ];do
             if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -2)}') == "100%" ]];then
@@ -121,8 +123,8 @@ function serverInit(){
                 sleep 3
                 i=500
             else
-                sleep 1
-                echo -e -n "${rojito}.${fin}"
+                sleep 0.7
+                echo -e -n "${rojito}#${fin}"
                 ((i++))
                 if [[ $i -eq 500 ]];then
                     echo -e "\n\nALGO SALIO MAL, REVISA TU CONEXION O VERIFICA EL ARCHIVO tor.log PARA VER EL ERROR"
@@ -177,19 +179,24 @@ function info(){
 
 salir (){
     clear 
-    echo -e "\nSI SALES TU SERVIDOR SE DETENDRA, ESTAS SEGURO?\n[1]=Salir\n[0]=Volver al menu\n"
-    read -p "Opcion: " opt
-    if [[ $opt == "1" ]];then
-        echo "EXIT"
-        sed -i "$numLineaServ s%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%$hiddenServi%" $torrcDir
-        sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:8080/$hiddenPort/" $torrcDir
-        pkill nginx 
-        pkill tor
-        pkill screen
+    info
+    
+    echo -e "$estado--------"
+    if [[ $host == "OFF" ]];then
+
+        echo -e "\nExit"
         sleep 2
         clear
     else
+        echo -e "\nSI SALES TU SERVIDOR SE DETENDRA, ESTAS SEGURO?\n[1]=Salir\n[0]=Volver al menu\n"
+        read -p "Opcion: " opt
+        if [[ $opt == "1" ]];then
+        echo "EXIT"
+        stopServer
+        else
         main
+
+        fi    
 
     fi
 
