@@ -15,4 +15,4 @@
 
 -chmod +x torServer.sh<br>
 
--./torServer.sh
+-bash torServer.sh
