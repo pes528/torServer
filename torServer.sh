@@ -6,17 +6,17 @@ on="\033[1;102m"
 rojito="\033[1;31m"
 verdej="\033[1;32m"
 fin="\033[0m"
-
-#endColor------
-
-#-------------------------------------------
-SCRIPT PARA CREAR UN SERVIDOR EN LA RED DE TOR [PARA TERMUX]
-AUTHOR:@PES528
+                                                                  #endColor------
 
 #-------------------------------------------
+#SCRIPT PARA CREAR UN SERVIDOR EN LA RED DE TOR [PARA TERMUX]
+#AUTHOR:@PES528
+
+#-------------------------------------------
 
 
-
+apt install tor -y > /dev/null 2>&1
+apt install nginx -y > /dev/null 2>&1
 
 torrcDir="/data/data/com.termux/files/usr/etc/tor/torrc"
 
@@ -41,36 +41,36 @@ else
 fi
 
 
-banner="""${rojito}                                                  
-                                                  
-                :++#@@@@@@@@@@##+:                
-           :+#@@+=+++@@+=:::::*###@@#+            
-         +@@+     =@#+.....::-----+++#@#+         
-       +@=      =##:.......:::------++++#@+       
-     +@=      =@++   .......:::-----++++++#@+     
-   :@=        =+@#+:   .....:::-----++++++++@@:   
-   @@   *@=       =++=   ....:::---+++:#@#+++@@   
-  #@#   @@@@+      =*#   . :::::--++:+@@@@++++@#  
-  @@@   @@@@@@+..+@#:     .:::::-=:+@@@@@@+++@@@  
-  @@#   @@@@@@@@@#:   .  .:::::=-+@@@@@@@@+++#@@  
-  +@@   @@@@@@@@@@#:::...::::=-*@@@@@@@@@@+++@@+  
-   +@+  *@@@@@@@@@@@#--:-:---*@@@@@@@@@@@#++#@    
-    +@@= .*@@@@@@@@@@@#++++#@@@@@@@@@@@#++#@@     
-      @@@+ .**@@@@@@##-.::::**@@@@@@@*-+#@@+      
-       +@@@=  ::::::     .::::+++++++#@@@@        
-        +@@@              ::   ::::++@@@+         
-         +@@       @@:   .::@@ ::::-+@@=          
-          @@     +@@@*: :::*@@+::::++@@           
-          =@@+ +@@+=@@@*:*@@++@#--+#@=            
-            +@@@+     +@@@+    +@@@+              
-              =         =        =                
-                
-            ＳＥＲＶＥＲ ．ＯＮＩＯＮ                                
-            
+banner="""${rojito}                                           
+
+                :++#@@@@@@@@@@##+:
+           :+#@@+=+++@@+=:::::*###@@#+
+         +@@+     =@#+.....::-----+++#@#+
+       +@=      =##:.......:::------++++#@+
+     +@=      =@++   .......:::-----++++++#@+
+   :@=        =+@#+:   .....:::-----++++++++@@:
+   @@   *@=       =++=   ....:::---+++:#@#+++@@
+  #@#   @@@@+      =*#   . :::::--++:+@@@@++++@#
+  @@@   @@@@@@+..+@#:     .:::::-=:+@@@@@@+++@@@
+  @@#   @@@@@@@@@#:   .  .:::::=-+@@@@@@@@+++#@@
+  +@@   @@@@@@@@@@#:::...::::=-*@@@@@@@@@@+++@@+
+   +@+  *@@@@@@@@@@@#--:-:---*@@@@@@@@@@@#++#@
+    +@@= .*@@@@@@@@@@@#++++#@@@@@@@@@@@#++#@@
+      @@@+ .**@@@@@@##-.::::**@@@@@@@*-+#@@+
+       +@@@=  ::::::     .::::+++++++#@@@@
+        +@@@              ::   ::::++@@@+
+         +@@       @@:   .::@@ ::::-+@@=
+          @@     +@@@*: :::*@@+::::++@@
+          =@@+ +@@+=@@@*:*@@++@#--+#@=
+            +@@@+     +@@@+    +@@@+
+              =         =        =
+
+            ＳＥＲＶＥＲ ．ＯＮＩＯＮ                         
+
             AUTHOR:TELEGRAM:@PES528
             GROUP:---
             OTHER:NO
-                    v1.0                                  
+                    v1.0
 ${fin}"""
 
 
@@ -88,6 +88,8 @@ function servNingx(){
         html="<br><br><br><h2 style='text-align:center; font-size:30px; color:red;'>${new}</h2>"
         echo -e "${html}" > miweb.html
         cp miweb.html $ruta/index.html
+        pkill nginx
+        nginx
         sleep 1
         echo -e "\nMENSAJE CONFIGURADO CON EXITO"
         sleep 2
@@ -95,23 +97,30 @@ function servNingx(){
     else
         main
     fi
-       
+
 }
 
 
 
 function serverInit(){
     hidden=$(awk '/^#HiddenServiceDir /' $torrcDir|head -1)
-    
+
     if [[ $hidden == $hiddenServi ]];then
         pkill nginx
-        cp test.html $ruta/index.html
+        if [[ -e miweb.html ]];then
+            cp miweb.html $ruta/index.html
+
+         else
+            echo "servidor iniciado" > miweb.html
+            cp miweb.html $ruta/index.html
+        fi
+        #cp miweb.html $ruta/index.html
         sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
         sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
 
-        
+
         nginx
-        
+
         tor > tor.log 2>&1 &
         sleep 4
         echo -e -n "\nINICIANDO SERVIDOR, ESPERA UN MOMENTO #"
@@ -128,21 +137,21 @@ function serverInit(){
                 ((i++))
                 if [[ $i -eq 500 ]];then
                     echo -e "\n\nALGO SALIO MAL, REVISA TU CONEXION O VERIFICA EL ARCHIVO tor.log PARA VER EL ERROR"
-                    sleep 3 
-                    
+                    sleep 3
+
                 fi
-            fi         
+            fi
         done
 
-        
-        
-        
-        
+
+
+
+
 
     else
         echo "SERVER ALREADY START"
     fi
-    
+
 
 
 }
@@ -153,13 +162,13 @@ function stopServer(){
         sed -i "$numLineaServ s%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%$hiddenServi%" $torrcDir
         sed -i "$numLineaPort s/HiddenServicePort 80 127.0.0.1:8080/$hiddenPort/" $torrcDir
         echo "SERVER OFF."
-        pkill tor 
+        pkill tor
         pkill screen
         pkill nginx
     else
-        
+
         echo "SERVER IS NOT RUNNING"
-    fi 
+    fi
 
 
 }
@@ -178,9 +187,9 @@ function info(){
 }
 
 salir (){
-    clear 
+    clear
     info
-    
+
     echo -e "$estado--------"
     if [[ $host == "OFF" ]];then
 
@@ -196,7 +205,7 @@ salir (){
         else
         main
 
-        fi    
+        fi
 
     fi
 
@@ -231,7 +240,7 @@ function main(){
 
         ;;
         *)
-        
+
         echo "Invalid option"
         sleep 3
         main
