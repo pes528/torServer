@@ -9,8 +9,8 @@
 
 -apt install git -y
 
--git clone https://github.com/pes528/torServer<br>
-
+-git clone https://github.com/pes528/torServer 
+<br>
 -cd torServer<br>
 
 -chmod +x torServer.sh<br>
