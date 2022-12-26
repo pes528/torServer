@@ -1,18 +1,17 @@
 # torServer
 <h1>INSTALACION PARA TERMUX:</h1><br>
 
--apt update && apt upgrade -y
+<p>$ apt update && apt upgrade -y</p>
 
--apt install tor -y<br>
+<p>$ apt install tor -y</p>
 
--apt install nginx -y<br>
+<p>$ apt install nginx -y</p>
 
--apt install git -y <br>
+<p>$ apt install git -y</p>
+<p>$ git clone https://github.com/pes528/torServer</p>
 
--git clone https://github.com/pes528/torServer <br>
+<p>$ cd torServer</p>
 
--cd torServer<br>
+<p>$ chmod +x torServer.sh</p>
 
--chmod +x torServer.sh<br>
-
--bash torServer.sh
+<p>$ bash torServer.sh</p>
