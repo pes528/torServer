@@ -7,10 +7,10 @@
 
 -apt install nginx -y<br>
 
--apt install git -y
+-apt install git -y <br>
 
--git clone https://github.com/pes528/torServer 
-<br>
+-git clone https://github.com/pes528/torServer <br>
+
 -cd torServer<br>
 
 -chmod +x torServer.sh<br>
