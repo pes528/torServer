@@ -41,7 +41,7 @@ else
 fi
 
 
-banner="""${rojito}                                           
+banner="""${rojito}
 
                 :++#@@@@@@@@@@##+:
            :+#@@+=+++@@+=:::::*###@@#+
@@ -65,7 +65,7 @@ banner="""${rojito}
             +@@@+     +@@@+    +@@@+
               =         =        =
 
-            ＳＥＲＶＥＲ ．ＯＮＩＯＮ                         
+            ＳＥＲＶＥＲ ．ＯＮＩＯＮ
 
             AUTHOR:TELEGRAM:@PES528
             GROUP:---
@@ -132,11 +132,14 @@ function serverInit(){
                 sleep 3
                 i=500
             else
-                sleep 0.7
+                sleep 0.3
                 echo -e -n "${rojito}#${fin}"
                 ((i++))
                 if [[ $i -eq 500 ]];then
                     echo -e "\n\nALGO SALIO MAL, REVISA TU CONEXION O VERIFICA EL ARCHIVO tor.log PARA VER EL ERROR"
+                    pkill nginx
+                    pkill tor
+                    stopServer
                     sleep 3
 
                 fi
