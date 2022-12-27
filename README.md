@@ -15,3 +15,6 @@
 <p>$ chmod +x torServer.sh</p>
 
 <p>$ bash torServer.sh</p>
+<p></p>
+<hr>
+<img src="https://raw.githubusercontent.com/pes528/torServer/main/torServer.jpg" width=80%>
