@@ -137,10 +137,10 @@ function serverInit(){
 
         nginx
 
-        tor > tor.log 2>&1 &
+        #tor > tor.log 2>&1 &
         sleep 4
         echo -e -n "\nINICIANDO SERVIDOR, ESPERA UN MOMENTO #"
-        
+
         while [ $i -ne 500 ];do
             if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -2)}') == "100%" ]];then
                 sleep 1
@@ -148,8 +148,10 @@ function serverInit(){
                 sleep 3
                 i=500
                 if [[ i -eq 500 ]];then
+
                     sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
                     sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
+                    tor > tor.log 2>&1 &
 
                 fi
             else
