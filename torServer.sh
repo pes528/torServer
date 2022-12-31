@@ -6,7 +6,7 @@ on="\033[1;102m"
 rojito="\033[1;31m"
 verdej="\033[1;32m"
 fin="\033[0m"
-                                                                  #endColor------
+#endColor------
 
 #-------------------------------------------
 #SCRIPT PARA CREAR UN SERVIDOR EN LA RED DE TOR [PARA TERMUX]
