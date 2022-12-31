@@ -25,14 +25,12 @@ hiddenServi="#HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidde
 hiddenPort="#HiddenServicePort 80 127.0.0.1:80"
 
 
-numLineaServ=$(grep -n HiddenServiceDir $torrcDir|awk -v FS=":" '{print $1}'|head -1)
-numLineaPort=$(grep -n "HiddenServicePort 80" $torrcDir|awk -v FS=":" '{print $1}'|head -1)
-
-
 estado=${estado:-""}
 
 
 dominio="/data/data/com.termux/files/usr/var/lib/tor/hidden_service"
+
+
 if [[ -d $dominio ]];then
     echo ""
 else
@@ -40,6 +38,27 @@ else
 
 fi
 
+if [[ -e $torrcDir ]];then
+    echo ""
+else
+    echo "No se encontro el archivo torrc"
+    echo -e -n "Configurando archivo."
+
+    for (( i=0; i<=10; i++ ))
+    do
+        sleep 0.5
+        echo -n "."
+    done
+
+    mkdir -p "/data/data/com.termux/files/usr/etc/tor"
+    echo $hiddenServi > $torrcDir
+    echo $hiddenPort >> $torrcDir
+    echo -e "${off}[HECHO]${fin}"
+    sleep 1
+fi
+
+numLineaServ=$(grep -n HiddenServiceDir $torrcDir|awk -v FS=":" '{print $1}'|head -1)
+numLineaPort=$(grep -n "HiddenServicePort 80" $torrcDir|awk -v FS=":" '{print $1}'|head -1)
 
 banner="""${rojito}
 
@@ -101,7 +120,7 @@ function servNingx(){
 }
 
 
-
+i=${i:-0}
 function serverInit(){
     hidden=$(awk '/^#HiddenServiceDir /' $torrcDir|head -1)
 
@@ -115,22 +134,24 @@ function serverInit(){
             cp miweb.html $ruta/index.html
         fi
         #cp miweb.html $ruta/index.html
-        sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
-        sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
-
 
         nginx
 
         tor > tor.log 2>&1 &
         sleep 4
         echo -e -n "\nINICIANDO SERVIDOR, ESPERA UN MOMENTO #"
-        i=${i:-0}
+        
         while [ $i -ne 500 ];do
             if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -2)}') == "100%" ]];then
                 sleep 1
                 echo -e "\nSERVIDOR INICIADO 100%"
                 sleep 3
                 i=500
+                if [[ i -eq 500 ]];then
+                    sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
+                    sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
+
+                fi
             else
                 sleep 0.3
                 echo -e -n "${rojito}#${fin}"
@@ -168,6 +189,7 @@ function stopServer(){
         pkill tor
         pkill screen
         pkill nginx
+        i=0
     else
 
         echo "SERVER IS NOT RUNNING"
