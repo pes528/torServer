@@ -1,9 +1,7 @@
 #!bin/bash
 
 #color------
-off="\033[1;41m"
-on="\033[1;102m"
-rojito="\033[1;31m"
+off="\033[1;41m"                                        on="\033[1;102m"                                        rojito="\033[1;31m"
 verdej="\033[1;32m"
 fin="\033[0m"
 #endColor------
@@ -141,19 +139,21 @@ function serverInit(){
         sleep 4
         echo -e -n "\nINICIANDO SERVIDOR, ESPERA UN MOMENTO #"
 
+
+
+
+        sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
+        sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
+        tor > tor.log 2>&1 &
+
+
         while [ $i -ne 500 ];do
             if [[ $(grep -w -r '100%' tor.log|gawk '{print $(NF -2)}') == "100%" ]];then
                 sleep 1
                 echo -e "\nSERVIDOR INICIADO 100%"
                 sleep 3
                 i=500
-                if [[ i -eq 500 ]];then
 
-                    sed -i "$numLineaServ s%$hiddenServi%HiddenServiceDir /data/data/com.termux/files/usr/var/lib/tor/hidden_service/%" $torrcDir
-                    sed -i "$numLineaPort s/$hiddenPort/HiddenServicePort 80 127.0.0.1:8080/" $torrcDir
-                    tor > tor.log 2>&1 &
-
-                fi
             else
                 sleep 0.3
                 echo -e -n "${rojito}#${fin}"
