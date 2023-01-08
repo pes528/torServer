@@ -87,7 +87,7 @@ banner="""${rojito}
             AUTHOR:TELEGRAM:@PES528
             GROUP:---
             OTHER:NO
-                    v1.0
+                    v1.1
 ${fin}"""
 
 
